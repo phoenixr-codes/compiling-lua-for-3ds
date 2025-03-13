@@ -1,0 +1,59 @@
+diff -ruN lua-5.4.7/Makefile lua/Makefile
+--- lua-5.4.7/Makefile	2024-05-08 23:47:12.000000000 +0200
++++ lua/Makefile	2025-03-13 23:15:20.515093420 +0100
+@@ -4,13 +4,13 @@
+ # == CHANGE THE SETTINGS BELOW TO SUIT YOUR ENVIRONMENT =======================
+ 
+ # Your platform. See PLATS for possible values.
+-PLAT= guess
++PLAT= 3ds
+ 
+ # Where to install. The installation starts in the src and doc directories,
+ # so take care if INSTALL_TOP is not an absolute path. See the local target.
+ # You may want to make INSTALL_LMOD and INSTALL_CMOD consistent with
+ # LUA_ROOT, LUA_LDIR, and LUA_CDIR in luaconf.h.
+-INSTALL_TOP= /usr/local
++INSTALL_TOP= $(DEVKITPRO)/portlibs/3ds
+ INSTALL_BIN= $(INSTALL_TOP)/bin
+ INSTALL_INC= $(INSTALL_TOP)/include
+ INSTALL_LIB= $(INSTALL_TOP)/lib
+@@ -36,7 +36,7 @@
+ # == END OF USER SETTINGS -- NO NEED TO CHANGE ANYTHING BELOW THIS LINE =======
+ 
+ # Convenience platforms targets.
+-PLATS= guess aix bsd c89 freebsd generic ios linux linux-readline macosx mingw posix solaris
++PLATS= guess 3ds aix bsd c89 freebsd generic ios linux linux-readline macosx mingw posix solaris
+ 
+ # What to install.
+ TO_BIN= lua luac
+diff -ruN lua-5.4.7/src/Makefile lua/src/Makefile
+--- lua-5.4.7/src/Makefile	2023-02-03 11:43:14.000000000 +0100
++++ lua/src/Makefile	2025-03-13 22:51:59.789716250 +0100
+@@ -4,7 +4,7 @@
+ # == CHANGE THE SETTINGS BELOW TO SUIT YOUR ENVIRONMENT =======================
+ 
+ # Your platform. See PLATS for possible values.
+-PLAT= guess
++PLAT= 3ds
+ 
+ CC= gcc -std=gnu99
+ CFLAGS= -O2 -Wall -Wextra -DLUA_COMPAT_5_3 $(SYSCFLAGS) $(MYCFLAGS)
+@@ -30,7 +30,7 @@
+ 
+ # == END OF USER SETTINGS -- NO NEED TO CHANGE ANYTHING BELOW THIS LINE =======
+ 
+-PLATS= guess aix bsd c89 freebsd generic ios linux linux-readline macosx mingw posix solaris
++PLATS= guess 3ds aix bsd c89 freebsd generic ios linux linux-readline macosx mingw posix solaris
+ 
+ LUA_A=	liblua.a
+ CORE_O=	lapi.o lcode.o lctype.o ldebug.o ldo.o ldump.o lfunc.o lgc.o llex.o lmem.o lobject.o lopcodes.o lparser.o lstate.o lstring.o ltable.o ltm.o lundump.o lvm.o lzio.o
+@@ -98,6 +98,9 @@
+ 	@echo Guessing `$(UNAME)`
+ 	@$(MAKE) `$(UNAME)`
+ 
++3ds:
++	$(MAKE) $(ALL) CC="$(DEVKITARM)/bin/arm-none-eabi-gcc -march=armv6k -mtune=mpcore -mfloat-abi=hard -mtp=soft"
++
+ AIX aix:
+ 	$(MAKE) $(ALL) CC="xlc" CFLAGS="-O2 -DLUA_USE_POSIX -DLUA_USE_DLOPEN" SYSLIBS="-ldl" SYSLDFLAGS="-brtl -bexpall"
+ 
