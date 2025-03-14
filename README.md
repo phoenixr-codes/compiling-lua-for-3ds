@@ -1,7 +1,7 @@
 # Compiling Lua for the Nintendo 3DS
 
 > [!IMPORTANT]
-> ... should've known that Lua is already present in devkitPro's portlibs.
+> ... should've known that Lua is already present in devkitPro's portlibs 🫠. But with this method you have control over the version you want to use in your project.
 
 ## Requirements
 
